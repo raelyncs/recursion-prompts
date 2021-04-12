@@ -7,31 +7,98 @@
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
 var factorial = function(n) {
+  // edge case: if n is less than one return null
+  if (n < 0) {
+    return null;
+  }
+  if (n === 0) {
+    return 1;
+  }
+  return (n * factorial(n-1));
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
 var sum = function(array) {
+  if (array.length === 0) {
+    return 0;
+  }
+  return array[0] + sum(array.slice(1));
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+  var sum = 0;
+  if (!Array.isArray(array)) {
+    return array;
+  }
+  array.forEach(function(num) {
+    sum += arraySum(num);
+  });
+  return sum;
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  var num = Math.abs(n);
+  if (num === 0) {
+    return true;
+  } else if (num === 1) {
+    return false;
+  }
+  return isEven(num-2);
+
 };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+  // is saying "max call stack exceeded, but runs fine in snippet debugger"
+  var summedNum = 0;
+  var isNeg = (n < 0) ? true : false;
+  var num = (Math.abs(n)-1);
+
+  var innerFunction = function(number) {
+    if (number === 0) {
+      return 0;
+    }
+    summedNum = number + innerFunction(number-1);
+    return summedNum;
+  }
+  innerFunction(num);
+
+  if (isNeg) {
+  return -summedNum;
+  } else {
+    return summedNum;
+  }
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+   // input: 2 integers x and y that represent a range
+  // output: an array of the numbers within the range
+  // set larger number to be y value and lower num to be x
+  var a = (x < y) ? a = x: a = y;
+  var b = (x < y) ? b = y: b = x;
+  var reverse = (x > y) ? true : false;
+  // base case: if x is equal or one digit away from y
+  if ( a === b || (a+1) === b) {
+    // return empty array
+    return [];
+  // x is less than y
+  } else {
+    var result = range(a, b - 1);
+    result.push(b-1);
+    if (reverse) {
+      return result.reverse();
+    } else {
+    return result;
+    }
+  }
 };
 
 // 7. Compute the exponent of a number.
